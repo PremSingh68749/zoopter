@@ -17,10 +17,29 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-
+app.all("*", (req, res, next) => {
+    const date = new Date();
+    console.log(
+      `--> url:${req.url} status:${res.statusCode} ${date.toLocaleTimeString(
+        "en-IN",
+        {
+          timeZone: "Asia/Kolkata", // Indian Standard Time (IST)
+          hour12: false, // Use 24-hour format
+          weekday: "short", // Show abbreviated weekday name
+          year: "numeric", // Show full year
+          month: "short", // Show abbreviated month name
+          day: "numeric", // Show day of the month
+          hour: "2-digit", // Show hours in 2-digit format
+          minute: "2-digit", // Show minutes in 2-digit format
+          second: "2-digit", // Show seconds in 2-digit format
+        }
+      )}`
+    );
+    next();
+  });
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.status(200).json({message:"server connected successfully"});
 });
 
 app.use('/users', userRoutes);
