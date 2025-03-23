@@ -1,26 +1,48 @@
-import React from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export const UserLogout = () => {
+const UserLogout = () => {
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+   
+    useEffect(() => {
+        const logoutUser = async () => {
+            const token = localStorage.getItem("token");
 
-    const token = localStorage.getItem('token')
-    const navigate = useNavigate()
+            console.log("Token before logout:", token); // Debugging
 
-    axios.get(`${import.meta.env.VITE_API_URL}/users/logout`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }).then((response) => {
-        if (response.status === 200) {
-            localStorage.removeItem('token')
-            navigate('/login')
-        }
-    })
+            if (!token) {
+                console.log("No token found, redirecting...");
+                setLoading(false);
+                navigate("/login");
+                return;
+            }
 
-    return (
-        <div>UserLogout</div>
-    )
-}
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_BASE_URL}/users/logout`,
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
 
-export default UserLogout
+                if (response.status === 200) {
+                    console.log("Logout successful", response.data);
+                    localStorage.removeItem("token");
+                }
+            } catch (error) {
+                console.error("Logout error:", error);
+            } finally {
+                setLoading(false);
+                navigate("/login"); // Ensure navigation happens only after API response
+            }
+        };
+
+        logoutUser();
+    }, [navigate]); // Keeping navigate in dependencies to avoid unnecessary re-renders
+
+    return loading ? <div>Logging out...</div> : null;
+};
+
+export default UserLogout;
