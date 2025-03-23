@@ -263,7 +263,7 @@ const Home = () => {
         <div className='h-screen relative overflow-hidden'>
 
 
-            <div className='h-screen w-screen'>
+            <div className="h-screen w-screen">
                 <header className='fixed p-2 top-0 flex items-center justify-between w-[50px] z-10'>
                     <Link to='/user/logout' className='h-10 w-[100%] bg-white flex items-center justify-center rounded-full z-10'>
                         <i className="text-lg font-medium ri-logout-box-r-line"></i>

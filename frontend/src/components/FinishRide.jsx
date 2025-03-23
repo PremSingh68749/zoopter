@@ -37,7 +37,7 @@ const FinishRide = (props) => {
                     <img className='h-12 rounded-full object-cover w-12' src="https://www.clevelanddentalhc.com/wp-content/uploads/2018/03/sample-avatar.jpg" alt="" />
                     <h2 className='text-lg font-medium'>{props.ride?.user.fullname.firstname}</h2>
                 </div>
-                <h5 className='text-lg font-semibold'>2.2 KM</h5>
+                <h5 className='text-lg font-semibold'>{props.ride?.captainDistance.distance}</h5>
             </div>
             <div className='flex gap-2 justify-between flex-col items-center'>
                 <div className='w-full mt-5'>
