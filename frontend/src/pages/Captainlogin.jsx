@@ -6,8 +6,8 @@ import { CaptainDataContext } from '../context/CapatainContext'
 
 const Captainlogin = () => {
 
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const { captain, setCaptain } = React.useContext(CaptainDataContext)
   const navigate = useNavigate()
@@ -38,8 +38,6 @@ const Captainlogin = () => {
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
       <div>
-        <img className='w-20 mb-3' src="https://www.svgrepo.com/show/505031/uber-driver.svg" alt="" />
-
         <form onSubmit={(e) => {
           submitHandler(e)
         }}>

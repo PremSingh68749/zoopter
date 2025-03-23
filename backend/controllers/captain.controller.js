@@ -1,4 +1,5 @@
 const captainModel = require('../models/captain.model');
+const rideModel = require('../models/ride.model');
 const captainService = require('../services/captain.service');
 const blackListTokenModel = require('../models/blackListToken.model');
 const { validationResult } = require('express-validator');
@@ -67,7 +68,25 @@ module.exports.loginCaptain = async (req, res, next) => {
 }
 
 module.exports.getCaptainProfile = async (req, res, next) => {
-    res.status(200).json({ captain: req.captain });
+    const rides = await rideModel.find({ captain: req.captain._id, status: "completed" });
+
+    // Organizing earnings & hours by month
+    const monthlyStats = {};
+
+    rides.forEach(ride => {
+        const rideDate = new Date(ride.updatedAt);
+        const monthKey = `${rideDate.getFullYear()}-${String(rideDate.getMonth() + 1).padStart(2, '0')}`; // Format: YYYY-MM
+        
+        if (!monthlyStats[monthKey]) {
+            monthlyStats[monthKey] = { totalEarnings: 0, totalWorkingHours: 0, totalCompletedRides: 0 };
+        }
+
+        monthlyStats[monthKey].totalEarnings += ride.fare;
+        monthlyStats[monthKey].totalWorkingHours += (ride.duration || 0) / 3600; // Convert seconds to hours
+        monthlyStats[monthKey].totalCompletedRides += 1;
+    });
+    console.log("stats",monthlyStats)
+    res.status(200).json({ captain: req.captain ,monthlyStats });
 }
 
 module.exports.logoutCaptain = async (req, res, next) => {

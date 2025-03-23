@@ -10,7 +10,8 @@ const SocketProvider = ({ children }) => {
     useEffect(() => {
         // Basic connection logic
         socket.on('connect', () => {
-            console.log('Connected to server');
+            
+            console.log('Connected to server',`${import.meta.env.VITE_BASE_URL}`);
         });
 
         socket.on('disconnect', () => {

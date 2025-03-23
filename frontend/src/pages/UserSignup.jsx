@@ -50,10 +50,8 @@ const UserSignup = () => {
   }
   return (
     <div>
-      <div className='p-7 h-screen flex flex-col justify-between'>
-        <div>
-          <img className='w-16 mb-10' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s" alt="" />
-
+      <div className='p-7 py-7 h-screen flex flex-col justify-between'>
+        <div className='flex flex-col justify-centerm mt-10'>
           <form onSubmit={(e) => {
             submitHandler(e)
           }}>
