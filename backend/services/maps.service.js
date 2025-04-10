@@ -4,7 +4,7 @@ const captainModel = require('../models/captain.model');
 module.exports.getAddressCoordinate = async (address) => {
     // Temporary mock data for testing
     const testCoordinates = {
-        "Wappnet Systems Pvt. Ltd., Science City Road, Science City, Panchamrut Bunglows II, Sola, Ahmedabad, Gujarat, India": { lat: 23.0712, lng: 72.5163 },
+        "Wappnet Systems Pvt. Ltd., Science City Road, Science City, Panchamrut Bunglows II, Sola, Ahmedabad, Gujarat, India": { lat: 23.0708, lng: 72.5177 },
         "Ld College Of Engineering Boys Hostel Block D, LALBHAI DALPATBHAI COLLEGE OF ENGINEERING, University Area, Ahmedabad, Gujarat, India": { lat: 23.0338, lng: 72.5466 }
 
     };
