@@ -9,6 +9,7 @@ const userRoutes = require('./routes/user.routes');
 const captainRoutes = require('./routes/captain.routes');
 const mapsRoutes = require('./routes/maps.routes');
 const rideRoutes = require('./routes/ride.routes');
+const path = require("path");
 
 connectToDb();
 
@@ -39,13 +40,18 @@ app.all("*", (req, res, next) => {
   });
 
 app.get('/', (req, res) => {
-    res.status(200).json({message:"server connected successfully"});
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.use('/users', userRoutes);
 app.use('/captains', captainRoutes);
 app.use('/maps', mapsRoutes);
 app.use('/rides', rideRoutes);
+
+app.use(express.static(path.join(__dirname, "/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 
 
