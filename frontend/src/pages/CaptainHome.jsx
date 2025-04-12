@@ -8,6 +8,8 @@ import gsap from 'gsap';
 import { SocketContext } from '../context/SocketContext';
 import { CaptainDataContext } from '../context/CapatainContext';
 import axios from 'axios';
+import LiveTracking from '../components/LiveTracking';
+
 
 const CaptainHome = () => {
     const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -22,9 +24,10 @@ const CaptainHome = () => {
 
     // Handle location updates
     useEffect(() => {
-        const updateLocation = () => {
+        const updateLocation = async () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(position => {
+                    console.log("positon",position.coords.latitude,position.coords.longitude)
                     socket.emit('update-location-captain', {
                         userId: captain._id,
                         location: {
@@ -43,8 +46,11 @@ const CaptainHome = () => {
         });
 
         // Update location immediately and then set interval
-        updateLocation();
-        const locationInterval = setInterval(updateLocation, 10000);
+        const locationInterval = setInterval(()=>{
+            updateLocation().then(()=>{
+                console.log("location Updated")
+            })
+        }, 10000);
 
         // Cleanup interval on unmount
         return () => clearInterval(locationInterval);
@@ -117,11 +123,7 @@ const CaptainHome = () => {
             </header>
 
             <section className='h-3/5'>
-                <img
-                    className='h-full w-full object-cover'
-                    src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
-                    alt="Map visualization"
-                />
+              <LiveTracking></LiveTracking>
             </section>
 
             <section className='h-2/5 p-6'>

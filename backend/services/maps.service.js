@@ -5,7 +5,7 @@ module.exports.getAddressCoordinate = async (address) => {
     // Temporary mock data for testing
     const testCoordinates = {
         "Wappnet Systems Pvt. Ltd., Science City Road, Science City, Panchamrut Bunglows II, Sola, Ahmedabad, Gujarat, India": { lat: 23.0708, lng: 72.5177 },
-        "Ld College Of Engineering Boys Hostel Block D, LALBHAI DALPATBHAI COLLEGE OF ENGINEERING, University Area, Ahmedabad, Gujarat, India": { lat: 23.0338, lng: 72.5466 }
+        "Ld College Of Engineering Boys Hostel Block D, LALBHAI DALPATBHAI COLLEGE OF ENGINEERING, University Area, Ahmedabad, Gujarat, India": { lat: 23.035006499999998 , lng: 72.54802026374746 }
 
     };
 
@@ -177,7 +177,7 @@ module.exports.haversineformula = (origin, destination, speed = 50) => {
     const durationHours = distanceKm / speed; // Time in hours
     const durationSeconds = Math.round(durationHours * 3600); // Convert to seconds
 
-    // console.log("formula out", distanceMeters, durationSeconds)
+     console.log("formula out", distanceMeters, durationSeconds)
 
     return {
         distance: { text: `${distanceKm.toFixed(2)} km`, value: distanceMeters },

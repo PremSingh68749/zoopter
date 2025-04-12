@@ -91,9 +91,15 @@ module.exports.createRide = async (req, res) => {
         );
         const distanceDataArray = await Promise.all(distancePromises);
 
+        console.log("pickup ",pickupCoordinates)
+
+        console.log("captains in radius",captainsInRadius)
+
         // Send ride event with **personalized** distance & duration to each captain
         captainsInRadius.forEach((captain, index) => {
             const { distance, duration } = distanceDataArray[index];
+
+            console.log("captan details",captain)
 
             sendMessageToSocketId(captain.socketId, {
                 event: 'new-ride',
