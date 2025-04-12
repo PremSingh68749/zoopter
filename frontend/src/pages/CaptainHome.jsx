@@ -116,9 +116,9 @@ const CaptainHome = () => {
 
     return (
         <div className='h-screen'>
-            <header className='fixed p-6 top-0 flex items-center justify-between w-screen'>
-                <Link to='/captain/logout' className='h-10 w-10 bg-white flex items-center justify-center rounded-full'>
-                    <i className="text-lg font-medium ri-logout-box-r-line"></i>
+            <header className='fixed p-6 top-0 flex items-center justify-between w-screen z-10'>
+                <Link to='/captain/logout' className='h-10 w-[100%]  flex items-center justify-start rounded-full z-10'>
+                    <i className="bg-white rounded-lg text-lg font-medium ri-logout-box-r-line"></i>
                 </Link>
             </header>
 
