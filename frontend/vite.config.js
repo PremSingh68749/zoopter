@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      injectRegister: null, // Disable automatic service worker registration
       manifest: {
         name: 'Zoopter',
         short_name: 'Zoopter',
@@ -28,11 +28,6 @@ export default defineConfig({
             type: 'image/png',
           },
         ],
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        // Increase the limit to 3 MiB (3 * 1024 * 1024 bytes)
-        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
       },
     }),
   ],
