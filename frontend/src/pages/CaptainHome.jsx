@@ -23,11 +23,52 @@ const CaptainHome = () => {
     const { captain } = useContext(CaptainDataContext);
 
     // Handle location updates
+    // useEffect(() => {
+    //     const updateLocation = async () => {
+    //         if (navigator.geolocation) {
+    //             navigator.geolocation.getCurrentPosition(position => {
+    //                 console.log("positon",position.coords.latitude,position.coords.longitude)
+    //                 socket.emit('update-location-captain', {
+    //                     userId: captain._id,
+    //                     location: {
+    //                         ltd: position.coords.latitude,
+    //                         lng: position.coords.longitude
+    //                     }
+    //                 });
+    //             });
+    //         }
+    //     };
+
+    //     // Join socket room
+    //     socket.emit('join', {
+    //         userId: captain._id,
+    //         userType: 'captain'
+    //     });
+
+    //     // Update location immediately and then set interval
+    //     const locationInterval = setInterval(()=>{
+    //         updateLocation().then(()=>{
+    //             console.log("location Updated")
+    //         })
+    //     }, 10000);
+
+    //     // Cleanup interval on unmount
+    //     return () => clearInterval(locationInterval);
+    // }, [captain._id, socket]);
     useEffect(() => {
-        const updateLocation = async () => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    console.log("positon",position.coords.latitude,position.coords.longitude)
+        let watchId;
+
+        if (navigator.geolocation) {
+            // Join socket room
+            socket.emit('join', {
+                userId: captain._id,
+                userType: 'captain'
+            });
+
+            // Start watching the location
+            watchId = navigator.geolocation.watchPosition(
+                position => {
+                    console.log("Position updated:", position.coords.latitude, position.coords.longitude);
                     socket.emit('update-location-captain', {
                         userId: captain._id,
                         location: {
@@ -35,26 +76,26 @@ const CaptainHome = () => {
                             lng: position.coords.longitude
                         }
                     });
-                });
+                },
+                error => {
+                    console.error("Error watching position:", error);
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 5000,
+                    timeout: 10000
+                }
+            );
+        }
+
+        // Cleanup the watcher on unmount
+        return () => {
+            if (watchId && navigator.geolocation) {
+                navigator.geolocation.clearWatch(watchId);
             }
         };
-
-        // Join socket room
-        socket.emit('join', {
-            userId: captain._id,
-            userType: 'captain'
-        });
-
-        // Update location immediately and then set interval
-        const locationInterval = setInterval(()=>{
-            updateLocation().then(()=>{
-                console.log("location Updated")
-            })
-        }, 10000);
-
-        // Cleanup interval on unmount
-        return () => clearInterval(locationInterval);
     }, [captain._id, socket]);
+
 
     // Handle new ride events
     useEffect(() => {
@@ -123,7 +164,7 @@ const CaptainHome = () => {
             </header>
 
             <section className='h-3/5'>
-              <LiveTracking></LiveTracking>
+                <LiveTracking></LiveTracking>
             </section>
 
             <section className='h-2/5 p-6'>
