@@ -190,6 +190,8 @@ module.exports.haversineformula = async (origin, destination, speed = 50) => {
     //google maps
 
     try {
+
+        const apiKey = process.env.GOOGLE_MAPS_API;
         // Format the origin and destination as "latitude,longitude"
         const originCoords = `${origin.ltd},${origin.lng}`;
         const destinationCoords = `${destination.ltd},${destination.lng}`;
